@@ -11,6 +11,11 @@ class ErrorBoundary extends Component {
   componentDidCatch(error, errorInfo) {
     console.error("Error Boundary caught:", error, errorInfo);
   }
+
+  handleRefresh = () => {
+    this.setState({ hasError: false, error: null });
+    window.location.reload();
+  };
 }
 
 export default ErrorBoundary;
