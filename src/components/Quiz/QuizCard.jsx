@@ -6,8 +6,93 @@ import { FaFlagCheckered, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import '../../App.css';
 
 export function QuizCard() {
-    return (
-        <div>
-        </div>
-    );
+  const { topic: topicSlug } = useParams();
+  const topic = getTopicNameFromSlug(topicSlug);
+  const location = useLocation();
+  const level = new URLSearchParams(location.search).get('level')?.toLowerCase();
+  const [questions, setQuestions] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [answered, setAnswered] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/questions?topic=${encodeURIComponent(topic)}&difficulty=${level}`)
+      .then((res) => res.json())
+      .then((data) => setQuestions(data.slice(0, 3)))
+      .catch(error => console.error('Error loading questions:', error));
+  }, [topic, level]);
+
+  const postResults = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          topic,
+          difficulty: level,
+          score,
+          total: questions.length,
+          timestamp: new Date().toISOString()
+        })
+      });
+      return await response.json();
+    } catch (error) {
+      console.error('Error saving results:', error);
+      throw error;
+    }
+  };
+
+  const finishQuiz = async () => {
+    try {
+      await postResults();
+      navigate('/results', {
+        state: { 
+          id: result.id,    // from backend response
+          userId: result.userId,  // from backend response
+          topic,
+          difficulty: level,
+          score, 
+          total: questions.length,
+          timestamp: result.timestamp || new Date().toISOString(),
+          percentage: Math.round((score / questions.length) * 100)
+        }
+      });
+    } catch (error) {
+      // Fallback navigation if POST fails
+      navigate('/results', {
+        state: { 
+          topic,
+          difficulty: level,
+          score,
+          total: questions.length,
+          percentage: Math.round((score / questions.length) * 100),
+          timestamp: new Date().toISOString()
+        }
+      });
+    }
+  };
+
+  const handleAnswer = (choiceIndex) => {
+    if (answered) return;
+    
+    setSelectedAnswer(choiceIndex);
+    setAnswered(true);
+    
+    if (choiceIndex === questions[index].answer) {
+      setScore(prev => prev + 1);
+    }
+  };
+
+  if (questions.length === 0) return <div className="loading">Loading questions...</div>;
+
+  const question = questions[index];
+  const isLastQuestion = index === questions.length - 1;
+
+  return (
+    <div>
+
+    </div>
+  );
 }
