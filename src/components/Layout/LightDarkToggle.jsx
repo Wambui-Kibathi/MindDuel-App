@@ -17,4 +17,18 @@ export default function LightDarkToggle() {
     if (savedTheme === 'dark') document.body.classList.add('dark-mode');
   }, []);
 
+  return (
+    <button 
+      className="icon-button"
+      onClick={toggleTheme}
+      aria-label="Toggle dark mode"
+    >
+      {document.body.classList.contains('dark-mode') ? (
+        <FaSun className="theme-icon" />
+      ) : (
+        <FaMoon className="theme-icon" />
+      )}
+    </button>
+  );
+
 }
