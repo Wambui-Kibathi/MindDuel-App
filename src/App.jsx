@@ -22,3 +22,8 @@ function ProtectedRoute({ children }) {
 
   return children;
 }
+
+function AppRoutesWithNavBar() {
+    const location = useLocation();
+    const showNavBar = !["/", "/register"].includes(location.pathname);
+}  
