@@ -22,10 +22,9 @@ export function AuthProvider({ children }) {
     
     const completeUserData = {
       ...userData,
-      // Ensure minimum required fields
+      // minimum required fields
       id: userData.id,
       username: userData.username || '',
-      // Add any other required default fields
     };
     
     setUser(completeUserData);
