@@ -91,8 +91,68 @@ export function QuizCard() {
   const isLastQuestion = index === questions.length - 1;
 
   return (
-    <div>
+    <div className="page-container">
+      <div className="main-card">
+        <h2 className="quiz-title">{topic} Quiz - {level.charAt(0).toUpperCase() + level.slice(1)}</h2>
+        <div className="nested-card">
+          <Timer duration={30} onTimeUp={finishQuiz} />
+          
+          <h3>Question {index + 1} of {questions.length}</h3>
+          <p className="question-text">{question.text}</p>
+          
+          <div className="choices-container">
+            {question.choices.map((choice, i) => (
+              <button
+                key={i}
+                className={`choice-button ${answered ? 
+                  i === question.answer ? 'correct-answer' : 
+                  selectedAnswer === i ? 'wrong-answer' : '' 
+                  : ''}`}
+                onClick={() => handleAnswer(i)}
+                disabled={answered}
+              >
+                {choice}
+              </button>
+            ))}
+          </div>
 
+          <div className="quiz-navigation">
+            <button 
+              className="nav-button"
+              onClick={() => {
+                setIndex(prev => Math.max(0, prev - 1));
+                setAnswered(false);
+                setSelectedAnswer(null);
+              }}
+              disabled={index === 0}
+            >
+              <FaArrowLeft /> Previous
+            </button>
+            
+            {!isLastQuestion ? (
+              <button 
+                className="nav-button"
+                onClick={() => {
+                  setIndex(prev => prev + 1);
+                  setAnswered(false);
+                  setSelectedAnswer(null);
+                }}
+                disabled={!answered}
+              >
+                Next <FaArrowRight />
+              </button>
+            ) : (
+              <button 
+                className="finish-button"
+                onClick={finishQuiz}
+                disabled={!answered && questions.length > 0}
+              >
+                <FaFlagCheckered /> Finish Quiz
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
