@@ -11,5 +11,10 @@ export default function LightDarkToggle() {
       document.body.classList.contains('dark-mode') ? 'dark' : 'light'
     );
   };
-  
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') document.body.classList.add('dark-mode');
+  }, []);
+
 }
