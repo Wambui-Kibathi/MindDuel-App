@@ -14,6 +14,11 @@
       "id": "a94f",
       "username": "Amy",
       "password": "amy123"
+    },
+    {
+      "id": "8e88",
+      "username": "Roy",
+      "password": "roy254"
     }
   ],
   "results": [
@@ -41,6 +46,14 @@
       "score": 2,
       "total": 2,
       "timestamp": "2025-07-28T07:11:09.805Z"
+    },
+    {
+      "id": "b505",
+      "topic": "General Knowledge",
+      "difficulty": "easy",
+      "score": 2,
+      "total": 2,
+      "timestamp": "2025-07-28T10:47:30.584Z"
     }
   ],
   "questions": [
