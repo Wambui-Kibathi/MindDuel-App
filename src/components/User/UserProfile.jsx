@@ -6,7 +6,7 @@ export function UserProfile() {
   const [username, setUsername] = useState(user?.username);
 
   const handleUpdate = () => {
-    fetch(`http://localhost:3000/users/${user.id}`, {
+    fetch(`https://mindduel-app-backend.onrender.com/users/$(user.id)`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username }),
@@ -16,7 +16,7 @@ export function UserProfile() {
   };
 
   const handleDelete = () => {
-    fetch(`http://localhost:3000/users/${user.id}`, {
+    fetch(`https://mindduel-app-backend.onrender.com/users/$(user.id)`, {
       method: 'DELETE',
     }).then(() => {
       logout();
