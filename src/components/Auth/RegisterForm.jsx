@@ -4,27 +4,40 @@ import { AuthContext } from '../../context/AuthContext';
 import '../../App.css';
 
 export function RegisterForm() {
-  const [formData, setFormData] = useState({ 
-    username: '', 
+  const [formData, setFormData] = useState({
+    username: '',
     password: '',
-    confirmPassword: ''  // Added confirmation field
+    confirmPassword: ''
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Client-side validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords don't match");
       return;
     }
-    
+
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters");
+      return;
+    }
+
+    if (formData.username.length < 3) {
+      setError("Username must be at least 3 characters");
       return;
     }
 
@@ -32,9 +45,11 @@ export function RegisterForm() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:3000/users', {
+      const response = await fetch('https://mindduel-app-backend.onrender.com/api/users/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           username: formData.username,
           password: formData.password
@@ -44,22 +59,17 @@ export function RegisterForm() {
       const data = await response.json();
 
       if (!response.ok) {
-        // Handle API error messages
         throw new Error(data.message || 'Registration failed');
       }
 
-      // Ensure we have minimum required user data
-      if (!data.id) {
-        throw new Error('Invalid user data received from server');
-      }
-
+      // Login the user after successful registration
       login({
-        id: data.id,
-        username: data.username,
-        // Add any other user data you want to store
+        id: data.user.id,
+        username: data.user.username,
+        token: data.token // Assuming your backend returns a token
       });
-      
-      navigate('/home', { replace: true });  // Prevent back navigation to register
+
+      navigate('/home', { replace: true });
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
     } finally {
@@ -73,49 +83,63 @@ export function RegisterForm() {
         <div className="nested-card app-title-card">
           <h1 className="app-title">MIND DUEL</h1>
         </div>
-        <div className="nested-card">
-          <form onSubmit={handleSubmit} className="register-form">
-            <h2>Register / Login</h2>
-            {error && <p className="error-message">{error}</p>}
+        
+        <div className="nested-card auth-card">
+          <h2>Create Account</h2>
+          
+          {error && <div className="error-message">{error}</div>}
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                minLength="3"
+              />
+            </div>
             
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={(e) => setFormData({...formData, username: e.target.value})}
-              required
-              minLength={3}
-              maxLength={20}
-            />
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength="6"
+              />
+            </div>
             
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
-              required
-              minLength={6}
-            />
-            
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-              required
-            />
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
             
             <button 
               type="submit" 
-              disabled={loading || !formData.username || !formData.password || !formData.confirmPassword}
-              className="button button-primary"
+              className="auth-button"
+              disabled={loading}
             >
-              {loading ? 'Processing...' : 'Enter Mind Duel'}
+              {loading ? 'Creating Account...' : 'Register'}
             </button>
           </form>
+          
+          <div className="auth-footer">
+            <p>Already have an account? <a href="/login">Sign in</a></p>
+          </div>
         </div>
       </div>
     </div>
