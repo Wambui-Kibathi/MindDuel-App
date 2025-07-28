@@ -4,10 +4,10 @@ import { AuthContext } from '../../context/AuthContext';
 import '../../App.css';
 
 export function RegisterForm() {
-  const [formData, setFormData] = useState({ 
-    username: '', 
+  const [formData, setFormData] = useState({
+    username: '',
     password: '',
-    confirmPassword: ''  // Added confirmation field
+    confirmPassword: '' // Added confirmation field
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,13 +16,13 @@ export function RegisterForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Client-side validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords don't match");
       return;
     }
-    
+
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters");
       return;
@@ -58,8 +58,8 @@ export function RegisterForm() {
         username: data.username,
         // Add any other user data you want to store
       });
-      
-      navigate('/home', { replace: true });  // Prevent back navigation to register
+
+      navigate('/home', { replace: true }); // Prevent back navigation to register
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
     } finally {
@@ -71,53 +71,4 @@ export function RegisterForm() {
     <div className="page-container">
       <div className="main-card">
         <div className="nested-card app-title-card">
-          <h1 className="app-title">MIND DUEL</h1>
-        </div>
-        <div className="nested-card">
-          <form onSubmit={handleSubmit} className="register-form">
-            <h2>Register / Login</h2>
-            {error && <p className="error-message">{error}</p>}
-            
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={(e) => setFormData({...formData, username: e.target.value})}
-              required
-              minLength={3}
-              maxLength={20}
-            />
-            
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
-              required
-              minLength={6}
-            />
-            
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-              required
-            />
-            
-            <button 
-              type="submit" 
-              disabled={loading || !formData.username || !formData.password || !formData.confirmPassword}
-              className="button button-primary"
-            >
-              {loading ? 'Processing...' : 'Enter Mind Duel'}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-}
+          <h1 className="app-title">MIND DUEL</h
