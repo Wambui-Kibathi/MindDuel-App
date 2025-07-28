@@ -9,6 +9,11 @@
       "id": "4caa",
       "username": "Hastin",
       "password": "hastin123"
+    },
+    {
+      "id": "a94f",
+      "username": "Amy",
+      "password": "amy123"
     }
   ],
   "results": [
@@ -28,6 +33,14 @@
       "score": 2,
       "total": 2,
       "timestamp": "2025-07-28T05:51:18.125Z"
+    },
+    {
+      "id": "5500",
+      "topic": "General Knowledge",
+      "difficulty": "easy",
+      "score": 2,
+      "total": 2,
+      "timestamp": "2025-07-28T07:11:09.805Z"
     }
   ],
   "questions": [
