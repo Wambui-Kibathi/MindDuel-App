@@ -45,7 +45,7 @@ export function RegisterForm() {
     setError(null);
 
     try {
-      const response = await fetch('https://mindduel-app-backend.onrender.com/api/users/register', {
+      const response = await fetch('https://mindduel-app-backend.onrender.com/users', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -64,9 +64,9 @@ export function RegisterForm() {
 
       // Login the user after successful registration
       login({
-        id: data.user.id,
-        username: data.user.username,
-        token: data.token // Assuming your backend returns a token
+        id: data.id,
+        username: data.username,
+        // Include other user data as needed
       });
 
       navigate('/home', { replace: true });
