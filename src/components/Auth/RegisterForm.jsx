@@ -4,40 +4,27 @@ import { AuthContext } from '../../context/AuthContext';
 import '../../App.css';
 
 export function RegisterForm() {
-  const [formData, setFormData] = useState({
-    username: '',
+  const [formData, setFormData] = useState({ 
+    username: '', 
     password: '',
-    confirmPassword: ''
+    confirmPassword: ''  
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     // Client-side validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords don't match");
       return;
     }
-
+    
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters");
-      return;
-    }
-
-    if (formData.username.length < 3) {
-      setError("Username must be at least 3 characters");
       return;
     }
 
@@ -45,11 +32,9 @@ export function RegisterForm() {
     setError(null);
 
     try {
-      const response = await fetch('https://mindduel-app-backend.onrender.com/users', {
+      const response = await fetch('http://mindduel-app-backend.onrender.com/users', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username: formData.username,
           password: formData.password
@@ -62,58 +47,74 @@ export function RegisterForm() {
         throw new Error(data.message || 'Registration failed');
       }
 
-      // Automatically log in user after successful registration
-      await login(formData.username, formData.password);
-      navigate('/');
+      if (!data.id) {
+        throw new Error('Invalid user data received from server');
+      }
+
+      login({
+        id: data.id,
+        username: data.username,
+      });
+      
+      navigate('/home', { replace: true });  
     } catch (err) {
-      setError(err.message || 'An error occurred during registration');
+      setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="auth-form-container">
-      <h2>Register</h2>
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
+    <div className="page-container">
+      <div className="main-card">
+        <div className="nested-card app-title-card">
+          <h1 className="app-title">MIND DUEL</h1>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+        <div className="nested-card">
+          <form onSubmit={handleSubmit} className="register-form">
+            <h2>Register / Login</h2>
+            {error && <p className="error-message">{error}</p>}
+            
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={(e) => setFormData({...formData, username: e.target.value})}
+              required
+              minLength={3}
+              maxLength={20}
+            />
+            
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              required
+              minLength={6}
+            />
+            
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+              required
+            />
+            
+            <button 
+              type="submit" 
+              disabled={loading || !formData.username || !formData.password || !formData.confirmPassword}
+              className="button button-primary"
+            >
+              {loading ? 'Processing...' : 'Enter Mind Duel'}
+            </button>
+          </form>
         </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        {error && <div className="error-message">{error}</div>}
-        <button type="submit" disabled={loading} className="auth-button">
-          {loading ? 'Registering...' : 'Register'}
-        </button>
-      </form>
+      </div>
     </div>
   );
 }
