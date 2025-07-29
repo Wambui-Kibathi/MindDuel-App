@@ -72,5 +72,15 @@ This project was developed collaboratively by the following contributors:
 4. Samuel Baraka – Profile Page, Result Handling
 Special thanks to everyone who contributed their time and effort to make MindDuel possible!
 
+## Live Site
+Visit the live site here:
+[Mind Duel Frontend](https://mindduel-app.onrender.com)
+
+## ©️ Copyright
+
+© 2025 Wambui Kibathi. All rights reserved.
+
+---
+
 ## License 
 MIT
