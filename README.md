@@ -1,20 +1,25 @@
 # MindDuel
 
-**MindDuel** is a responsive React web application that challenges users with trivia quizzes on various topics and difficulty levels. It features user authentication, profile management and all quiz questions are stored locally using a `json-server`, allowing full CRUD operations within the app. No external API is used.
+MindDuel is a responsive React web application that challenges users with trivia quizzes on various topics and difficulty levels. It features user authentication, profile management and all quiz questions are stored locally using a `json-server`, allowing full CRUD operations within the app. No external API is used.
 
 ## Features
 
-- **User Authentication**: Register and log in to access the full app.
-- **Quiz Topics**: Choose from a variety of topics like General Knowledge, Art, Literature, and Entertainment.
-- **Difficulty Levels**: Pick your difficulty level – Easy, Medium, or Hard.
-- **Timed Quizzes**: Answer questions within a time limit of 30 seconds.
-- **Results Summary**: See your score upon completion.
-- **Profile Management**: Update or delete your user profile.
-- **Theme Toggle**: Light and Dark mode support.
-- **RESTful API (JSON Server)**: Mock backend for local development.
+1. **User Authentication**: Register and log in to access the full app.
+2. **Quiz Topics**: Choose from a variety of topics like General Knowledge, Art, Literature, and Entertainment.
+3. **Difficulty Levels**: Pick your difficulty level – Easy, Medium, or Hard.
+4. **Timed Quizzes**: Answer questions within a time limit of 30 seconds.
+5. **Results Summary**: See your score upon completion.
+6. **Profile Management**: Update or delete your user profile.
+7. **Theme Toggle**: Light and Dark mode support.
+8. **RESTful API (JSON Server)**: Mock backend for local development.
+
+## Repositories
+- Frontend: [MindDuel-App](https://github.com/your-username/MindDuel-App)  
+- Backend: [MindDuel-App-backend](https://github.com/your-username/MindDuel-App-backend) 
 
 ## Installation
 
+# Frontend
 Use the package manager [npm](https://www.npmjs.com/) to install and run **MindDuel**.
 
 ```bash
@@ -27,8 +32,8 @@ cd MindDuel-App
 # Install dependencies
 npm install
 
-# Install JSON server globally (if not installed)
-npm install -g json-server
+# Install JSON server within the project directory.
+npm install json-server
 
 # Start the mock backend (db.json should be in root)
 json-server --watch db.json --port 3000
@@ -39,6 +44,20 @@ npm run dev
 To build the project for production:
 ```bash
 npm run build
+```
+# Backend
+```bash
+# Clone the repository
+git clone https://github.com/your-username/MindDuel-App-backend.git
+
+# Navigate to the project folder
+cd MindDuel-App-backend
+
+# Install dependencies
+npm install
+
+# Start backend
+npm start  # Runs on port 10000
 ```
 
 ## Usage
@@ -75,6 +94,9 @@ Special thanks to everyone who contributed their time and effort to make MindDue
 ## Live Site
 Visit the live site here:
 [Mind Duel Frontend](https://mindduel-app.onrender.com)
+
+# Troubleshooting
+API errors? Ensure your frontend is using the correct endpoint (deployed by default).
 
 ## ©️ Copyright
 
