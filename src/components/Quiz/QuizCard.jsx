@@ -18,7 +18,7 @@ export function QuizCard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://mindduel-app-backend.onrender.com/questions?topic=${encodeURIComponent(topic)}&difficulty=${level}`)
+    fetch(`https://mindduel-app-backend.onrender.com/questions?topic=${encodeURIComponent(topic)}&difficulty=${level}`)
       .then((res) => res.json())
       .then((data) => setQuestions(data.slice(0, 3)))
       .catch(error => console.error('Error loading questions:', error));
@@ -26,7 +26,7 @@ export function QuizCard() {
 
   const postResults = async () => {
     try {
-      const response = await fetch('http://mindduel-app-backend.onrender.com/results', {
+      const response = await fetch('https://mindduel-app-backend.onrender.com/results', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
