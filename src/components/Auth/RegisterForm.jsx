@@ -32,7 +32,7 @@ export function RegisterForm() {
     setError(null);
 
     try {
-      const response = await fetch('http://mindduel-app-backend.onrender.com/users', {
+      const response = await fetch('https://mindduel-app-backend.onrender.com/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
